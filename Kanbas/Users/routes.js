@@ -43,7 +43,7 @@ export default function UserRoutes(app) {
       req.session["currentUser"] = currentUser;
       res.json(currentUser);
     } else {
-      res.status(401).json({ message: "Invalid or incorrect username or password. Please try again." });
+      res.status(401).json({ message: "Unable to login. Please try again later." });
       return;
     }
   };
@@ -92,6 +92,8 @@ export default function UserRoutes(app) {
   };
 
   const createCourse = (req, res) => {
+    console.log("Request received in createCourse route:", req.body);
+    
     const currentUser = req.session["currentUser"];
     const newCourse = courseDao.createCourse(req.body);
     enrollmentsDao.enrollUserInCourse(currentUser._id, newCourse._id);
