@@ -3,10 +3,45 @@ import * as courseDao from "../Courses/dao.js";
 import * as enrollmentsDao from "../Enrollments/dao.js";
 
 export default function UserRoutes(app) {
-  const createUser = (req, res) => { };
-  const deleteUser = (req, res) => { };
-  const findAllUsers = (req, res) => { };
-  const findUserById = (req, res) => { };
+  const createUser = (req, res) => {
+    const newUser = dao.createUser(req.body);
+    res.json(newUser);
+  };
+
+  const deleteUser = (req, res) => {
+    const userId = req.params.userId;
+    const status = dao.deleteUser(userId);
+    res.json(status);
+    res.sendStatus(200);
+  };
+
+  const findAllUsers = (req, res) => {
+    const { role, name } = req.query;
+
+    if (role) {
+      const users = dao.findUsersByRole(role);
+      return res.json(users);
+    }
+
+    if (name) {
+      const users = dao.findUsersByPartialName(name);
+      return res.json(users);
+    }
+
+    // return all users if no query parameters are provided
+    const users = dao.findAllUsers();
+    res.json(users);
+  };
+
+  const findUserById = (req, res) => {
+    const userId = req.params.userId;
+    const user = dao.findUserById(userId);
+    if (user) {
+      res.json(user);
+    } else {
+      res.status(404).send("User not found");
+    }
+  };
 
   const updateUser = (req, res) => {
     const userId = req.params.userId;
@@ -43,10 +78,10 @@ export default function UserRoutes(app) {
 
     console.log("Found current user: ", currentUser);
       
+
     if (currentUser) {
       req.session["currentUser"] = currentUser;
       console.log("Successfully sign in user:", req.session["currentUser"]);
-
       res.json(currentUser);
     } else {
       res.status(401).json({ message: "Unable to login. Please try again later." });
@@ -99,7 +134,7 @@ export default function UserRoutes(app) {
 
   const createCourse = (req, res) => {
     console.log("Request received in createCourse route:", req.body);
-    
+
     const newCourse = courseDao.createCourse(req.body);
 
     const currentUser = req.session["currentUser"];
@@ -128,6 +163,7 @@ export default function UserRoutes(app) {
     console.log("Dropped course: ", course._id);
     res.json(course);
   }
+
 
   app.post("/api/users", createUser);
   app.get("/api/users", findAllUsers);
