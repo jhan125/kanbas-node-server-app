@@ -43,7 +43,6 @@ export default function UserRoutes(app) {
 
     console.log("Found current user: ", currentUser);
       
-
     if (currentUser) {
       req.session["currentUser"] = currentUser;
       console.log("Successfully sign in user:", req.session["currentUser"]);
