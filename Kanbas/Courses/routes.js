@@ -19,6 +19,7 @@ export default function CourseRoutes(app) {
   app.delete("/api/courses/:courseId", (req, res) => {
     const { courseId } = req.params;
     dao.deleteCourse(courseId);
+    console.log("FACULTY deleted course: ", courseId);
     res.sendStatus(204);
   });
 

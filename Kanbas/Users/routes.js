@@ -33,14 +33,21 @@ export default function UserRoutes(app) {
     const currentUser = dao.createUser(req.body);
     req.session["currentUser"] = currentUser;
     res.json(currentUser);
+
+    console.log("Successfully signed up user:", currentUser);
   };
 
   const signin = (req, res) => {
     const { username, password } = req.body;
     const currentUser = dao.findUserByCredentials(username, password);
 
+    console.log("Found current user: ", currentUser);
+      
+
     if (currentUser) {
       req.session["currentUser"] = currentUser;
+      console.log("Successfully sign in user:", req.session["currentUser"]);
+
       res.json(currentUser);
     } else {
       res.status(401).json({ message: "Unable to login. Please try again later." });
@@ -94,15 +101,23 @@ export default function UserRoutes(app) {
   const createCourse = (req, res) => {
     console.log("Request received in createCourse route:", req.body);
     
-    const currentUser = req.session["currentUser"];
     const newCourse = courseDao.createCourse(req.body);
+
+    const currentUser = req.session["currentUser"];
+    console.log("Found current User: ", currentUser);
+
+    console.log("Calling enrollUserInCourse in createCourse...");
+
     enrollmentsDao.enrollUserInCourse(currentUser._id, newCourse._id);
+
     res.json(newCourse);
   };
 
   const enrollCourse = (req, res) => {
     const currentUser = req.session["currentUser"];
     const { course } = req.body;
+    console.log("Calling enrollUserInCourse in enrollCourse...");
+
     enrollmentsDao.enrollUserInCourse(currentUser._id, course._id);
     res.json(course);
   }
@@ -111,6 +126,7 @@ export default function UserRoutes(app) {
     const currentUser = req.session["currentUser"];
     const course = req.body;
     enrollmentsDao.unenrollUserInCourse(currentUser._id, course._id);
+    console.log("Dropped course: ", course._id);
     res.json(course);
   }
 
@@ -123,9 +139,10 @@ export default function UserRoutes(app) {
   app.post("/api/users/signin", signin);
   app.post("/api/users/signout", signout);
   app.post("/api/users/profile", profile);
+
   app.get("/api/users/:userId/courses", findCoursesForEnrolledUser);
   app.get("/api/users/:userId/courses/enroll", findCoursesForUnenrolledUser);
   app.post("/api/users/:userId/courses/enroll", enrollCourse);
   app.delete("/api/users/:userId/courses", dropCourse);
-  app.post("/api/users/:userId/courses", createCourse);
+  app.post("/api/users/current/courses", createCourse);
 }
