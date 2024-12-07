@@ -37,7 +37,7 @@ export default [
     "due": "2024-05-13T11:59:00Z",
     "until": "2024-05-19T23:59:00Z",
     "points": 100,
-    "description": "\nThe assignment is available online \n\nSubmit a link to the landing page of your Web application running on Netlify.\n\nThe landing page should include the following: \n\n• Your full name and section\n• Links to each of the lab assignments\n• Link to the Kanbas application\n• Links to all relevant source code repositories \n\nThe Kanbas application should include a link to navigate back to the landing page.",
+    "description": "\nThe assignment is available online \n\nSubmit a link to the landing page of your Web application running on Netlify.\n\nThe landing page should include the following: \n\n• Your full name and section\n• Links to each of the lab assignments\n• Link to the Kanbas application\n• Links to all relevant source code repositories \n\nThe Kanbas application should include a link to navigate back to the landing page."
   },
   {
     "_id": "A202",
@@ -67,7 +67,7 @@ export default [
     "availableFrom": "2024-05-06T00:00:00Z",
     "due": "2024-05-13T11:59:00Z",
     "until": "2024-05-19T23:59:00Z",
-    "description": "\nThe assignment is available online \n\nSubmit a link to the landing page of your Web application running on Netlify.\n\nThe landing page should include the following: \n\n• Your full name and section\n• Links to each of the lab assignments\n• Link to the Kanbas application\n• Links to all relevant source code repositories \n\nThe Kanbas application should include a link to navigate back to the landing page.",
+    "description": "\nThe assignment is available online \n\nSubmit a link to the landing page of your Web application running on Netlify.\n\nThe landing page should include the following: \n\n• Your full name and section\n• Links to each of the lab assignments\n• Link to the Kanbas application\n• Links to all relevant source code repositories \n\nThe Kanbas application should include a link to navigate back to the landing page."
   },
   {
     "_id": "A302",
