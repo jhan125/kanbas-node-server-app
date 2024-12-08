@@ -1,29 +1,28 @@
 import * as enrollmentsDao from "./dao.js";
-import * as courseDao from "../Courses/dao.js";
 
 export default function EnrollmentRoutes(app) {
 
-  const findCoursesForEnrolledUser = async (req, res) => {
-    let { userId } = req.params;
-    if (userId === "current") {
-      const currentUser = req.session["currentUser"];
-      if (!currentUser) return res.sendStatus(401);
-      userId = currentUser._id;
-    }
-    const courses = await enrollmentsDao.findCoursesForEnrolledUser(userId);
-    res.json(courses);
-  };
+  // const findCoursesForEnrolledUser = async (req, res) => {
+  //   let { userId } = req.params;
+  //   if (userId === "current") {
+  //     const currentUser = req.session["currentUser"];
+  //     if (!currentUser) return res.sendStatus(401);
+  //     userId = currentUser._id;
+  //   }
+  //   const courses = await enrollmentsDao.findCoursesForEnrolledUser(userId);
+  //   res.json(courses);
+  // };
 
-  const findCoursesForUnenrolledUser = async (req, res) => {
-    let { userId } = req.params;
-    if (userId === "current") {
-      const currentUser = req.session["currentUser"];
-      if (!currentUser) return res.sendStatus(401);
-      userId = currentUser._id;
-    }
-    const courses = await enrollmentsDao.findCoursesForUnenrolledUser(userId);
-    res.json(courses);
-  };
+  // const findCoursesForUnenrolledUser = async (req, res) => {
+  //   let { userId } = req.params;
+  //   if (userId === "current") {
+  //     const currentUser = req.session["currentUser"];
+  //     if (!currentUser) return res.sendStatus(401);
+  //     userId = currentUser._id;
+  //   }
+  //   const courses = await enrollmentsDao.findCoursesForUnenrolledUser(userId);
+  //   res.json(courses);
+  // };
 
   const enrollCourse = async (req, res) => {
     const { userId } = req.params;
@@ -50,8 +49,8 @@ export default function EnrollmentRoutes(app) {
   };
    
 
-  app.get("/api/users/:userId/courses", findCoursesForEnrolledUser);
-  app.get("/api/users/:userId/courses/unenrolled", findCoursesForUnenrolledUser);
+  // app.get("/api/users/:userId/courses", findCoursesForEnrolledUser);
+  // app.get("/api/users/:userId/courses/unenrolled", findCoursesForUnenrolledUser);
   app.post("/api/users/:userId/courses/enroll", enrollCourse);
   app.delete("/api/users/:userId/courses", dropCourse);
   app.get("/api/courses/:courseId/users", findAllPeopleInCourse);

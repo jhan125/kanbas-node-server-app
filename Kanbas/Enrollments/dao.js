@@ -3,13 +3,24 @@ import courseModel from "../Courses/model.js";
 
 // Find courses the user is enrolled in
 export const findCoursesForEnrolledUser = async (userId) => {
-  const enrollments = await enrollmentModel.find({ user: userId }).populate("course");
-  return enrollments.map((enrollment) => enrollment.course);
+  try {
+    // Query the enrollments collection for the specified userId
+    const enrollments = await enrollmentModel.find({ user: userId })
+      .populate("course") // Populate the course details
+      .exec();
+    
+    return enrollments.map((enrollment) => enrollment.course);
+  } catch (error) {
+    console.error("Error finding courses for enrolled user:", error);
+    throw new Error("Unable to retrieve courses for the user");
+  }
 };
 
 // Find courses the user is NOT enrolled in
 export const findCoursesForUnenrolledUser = async (userId) => {
-  const enrolledCourses = await enrollmentModel.find({ user: userId }).select("course");
+  const enrolledCourses = await enrollmentModel
+    .find({ user: userId })
+    .select("course");
   const enrolledCourseIds = enrolledCourses.map((e) => e.course);
   return courseModel.find({ _id: { $nin: enrolledCourseIds } });
 };
@@ -27,7 +38,7 @@ export const unenrollUserInCourse = async (userId, courseId) => {
 export const findAllPeopleInCourse = async (courseId) => {
   const enrollments = await enrollmentModel
     .find({ course: courseId }) // Find all enrollments for the course
-    .populate("user", "name email role"); // Populate user details (adjust fields as needed)
+    .populate("user");
 
   return enrollments.map((enrollment) => enrollment.user);
 };
