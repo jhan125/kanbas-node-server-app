@@ -55,6 +55,7 @@ export default function UserRoutes(app) {
     if (currentUser && currentUser._id === userId) {
       req.session["currentUser"] = { ...currentUser, ...userUpdates };
     }
+    console.log("Current User Profile is updated: ", currentUser);
     res.json(currentUser);
   };
 
