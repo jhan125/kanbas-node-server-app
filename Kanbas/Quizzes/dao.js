@@ -10,3 +10,8 @@ export const createQuiz = (quiz) => {
 };
 export const deleteQuiz = (quizId) => model.deleteOne({ _id: quizId });
 export const updateQuiz = (quizId, quiz) => model.updateOne({ _id: quizId}, { $set: quiz});
+export const findQuestionsForQuiz = async (quizId) => {
+    const quiz = await model.findById(quizId);
+    return quiz?.questions || [];
+  };
+  
