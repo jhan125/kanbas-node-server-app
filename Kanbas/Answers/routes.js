@@ -12,13 +12,13 @@ export default function AnswerRoutes(app) {
         res.status(200).send(answers);
     });
 
-    // create a new answer for a quiz (put user id in the newAnswer object)
-    app.post("/api/quizzes/:quizId/answers", async (req, res) => {
-        const { quizId } = req.params;
-        const newAnswer = req.body;
-        const status = await answersDao.createAnswer(quizId, newAnswer);
-        res.send(status);
-    });
+    // // create a new answer for a quiz (put user id in the newAnswer object)
+    // app.post("/api/quizzes/:quizId/answers", async (req, res) => {
+    //     const { quizId } = req.params;
+    //     const newAnswer = req.body;
+    //     const status = await answersDao.createAnswer(quizId, newAnswer);
+    //     res.send(status);
+    // });
 
     /// set the finished status as true -> add attempt number -> give score
     app.put("/api/quizzes/:quizId/user/:userId/answers/finished", async (req, res) => {
@@ -48,11 +48,13 @@ export default function AnswerRoutes(app) {
 
     // tested:  if allow a new attempt, create a new empty answer in database, return true
     // if not allowed, return false
+    // client call: newAttempt()
     app.post("/api/quizzes/:quizId/user/:userId/answers", async (req, res) => {
         const { quizId, userId } = req.params;
         const status = await answersDao.newAttempt(quizId, userId);
         res.send(status);
     });
+
 
     // // get all answers from different users for a specific quiz by ID
     // app.get("/api/quizzes/:quizId/answers", async (req, res) => {

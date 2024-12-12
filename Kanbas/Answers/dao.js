@@ -10,12 +10,12 @@ export async function findAnswersForUser(quizId, userId) {
     return model.findOne({ quiz: quizId, user: userId });
 }
 
-export async function createAnswer(quizId, answer) {
-    console.log("Creating answer for quizId:", quizId, "with answer:", answer);
-    const createdAnswer = await model.create({ quiz: quizId, attempt: 1, finished: false, ...answer });
-    console.log("Created answer:", createdAnswer);
-    return createdAnswer;
-}
+// export async function createAnswer(quizId, answer) {
+//     console.log("Creating answer for quizId:", quizId, "with answer:", answer);
+//     const createdAnswer = await model.create({ quiz: quizId, attempt: 0, finished: false, ...answer });
+//     console.log("Created answer:", createdAnswer);
+//     return createdAnswer;
+// }
 
 export async function deleteAnswer(answerId) {
     return model.deleteOne({ _id: answerId });
@@ -27,7 +27,7 @@ export async function addAnswerToMap(quizId, userId, questionId, newAnswer) {
 
     if (!questionId || !newAnswer) {
         console.error("Invalid parameters: questionId or newAnswer is missing");
-      }
+    }
 
     const answer = await model.findOne({ quiz: quizId, user: userId });
     console.log("Found answer for quizId:", quizId, "userId:", userId, answer);
@@ -43,7 +43,7 @@ export async function addAnswerToMap(quizId, userId, questionId, newAnswer) {
         console.log("Saved answer to DB:", savedAnswer);
         return savedAnswer;
     }
-     // If no answer exists, create a new one with the given answer
+    // If no answer exists, create a new one with the given answer
     const createdAnswer = await model.create({
         quiz: quizId,
         user: userId,
@@ -104,7 +104,7 @@ export async function newAttempt(quizId, userId) {
             return false;
         }
     }
-    return model.create({ quiz: quizId, user: userId, attempt: 1, answers: {}, finished: false });
+    return model.create({ quiz: quizId, user: userId, attempt: 0, answers: {}, finished: false });
 }
 
 export async function updateAnswer(quizId, userId, newAnswer) {
