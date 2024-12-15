@@ -12,6 +12,14 @@ export default function AnswerRoutes(app) {
         res.status(200).send(answers);
     });
 
+    // get the only score linked by userid and quizid
+    app.get("/api/quizzes/:quizId/user/:userId/score", async (req, res) => {
+        const { quizId, userId } = req.params;
+        const answers = await answersDao.findAnswersForUser(quizId, userId);
+        res.status(200).send(answers.score);
+    });
+
+
     // // create a new answer for a quiz (put user id in the newAnswer object)
     // app.post("/api/quizzes/:quizId/answers", async (req, res) => {
     //     const { quizId } = req.params;
